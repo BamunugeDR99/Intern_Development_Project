@@ -1,10 +1,18 @@
 import { useRouter } from "next/router";
 import { Post,ItemsfromAPI } from "../../Interfaces/types";
+import { useSelector } from "react-redux";
+import { RootStore } from "../../redux/store";
 
 export default function AllItems(props:ItemsfromAPI) {
   const router = useRouter();
 
+  //Testing Redux Setup 
+  const products  = useSelector((state:RootStore) => state.allProducts);
 
+  console.log(products.services);
+
+
+  //Navigate Function
   function navigateToSinglePost(id:string) {
     router.push("/posts/" + id);
   }

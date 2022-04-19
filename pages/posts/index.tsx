@@ -5,8 +5,27 @@ import AllItems from "../../Components/ItemList/itemlist";
 import { GetServerSideProps } from "next";
 import { FetchPosts } from "../../services/api/APIs";
 import Head from "next/head";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchProducts } from "../../redux/actions/ProductActions";
 
 export default function ListItems(props: ItemsfromAPI) {
+
+  const dispatch = useDispatch();
+
+useEffect(()=>{
+
+  dispatch<any>(fetchProducts());
+
+},[])
+
+
+
+
+
+
+
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postsPerPage] = useState<number>(12);
 

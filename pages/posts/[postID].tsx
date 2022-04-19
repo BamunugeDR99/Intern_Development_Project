@@ -4,9 +4,28 @@ import Head from "next/head";
 import SingleItem from "../../Components/SingleItem/singleitem";
 import { Context } from "vm";
 import { FetchSpecificPost } from "../../services/api/APIs";
+import { Dispatch, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { fetchSelectedProducts } from "../../redux/actions/ProductActions";
 
+//ID Interface 
+interface IDfromURL {
+  postID: string;
+}
 
 export default function SinglePost(props: SingleItemData) {
+  //Get the id from the URL
+  const router = useRouter();
+  const postID: IDfromURL = router.query as unknown as IDfromURL;
+  const dispatch = useDispatch();
+
+  //Use Effect with the dispatcher
+  useEffect(() => {
+    console.log("Post ID : ", postID);
+    dispatch<any>(fetchSelectedProducts(postID.postID));
+  }, []);
+
   return (
     <>
       <Head>
@@ -14,7 +33,10 @@ export default function SinglePost(props: SingleItemData) {
         {/* Meta Tags */}
         <meta name="description" content={props.postData.details} />
         <meta property="og:title" content={props.postData.title} />
-        <meta property="og:image" content={`https://serwstage.s3.us-east-2.amazonaws.com/${props.postData.image}`} />
+        <meta
+          property="og:image"
+          content={`https://serwstage.s3.us-east-2.amazonaws.com/${props.postData.image}`}
+        />
         <meta property="og:description" content={props.postData.details} />
       </Head>
       <SingleItem postData={props.postData} />
@@ -22,9 +44,11 @@ export default function SinglePost(props: SingleItemData) {
   );
 }
 
+//getServerSideProps() for Server Side Rendering
 export const getServerSideProps: GetServerSideProps = async (
   context: Context
 ) => {
+  //Get postID from the URL
   const postID: string = context.query.postID;
 
   //Fetch Data From an API

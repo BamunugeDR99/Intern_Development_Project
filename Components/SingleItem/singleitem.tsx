@@ -1,6 +1,13 @@
+import { useSelector } from "react-redux";
+import { RootStore } from "../../redux/store";
 import { SingleItemData } from "../../Interfaces/types";
 
 export default function SingleItem(props:SingleItemData) {
+
+    //Testing Redux Setup 
+    const product  = useSelector((state:RootStore) => state.product);
+    console.log(product);
+
 
     return (
       <div className="container content-center mt-5 m-10">
